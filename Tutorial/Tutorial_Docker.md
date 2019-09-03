@@ -51,11 +51,13 @@ Instale pacotes para permitir que o apt use um repositório via HTTPS:
 $ sudo apt-get install \ apt-transport-https \ ca-certificates \ curl \ gnupg2 \ software-properties-common
 ```
 
-### 3. Adicionar chave GPG oficial do Docker:
+### 3. Adicionar chave GPG oficial do Docker
   
+```sh
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
 
-### 4. Use o seguinte comando para configurar o repositório estável .
+### 4. Configurar o repositório estável
 ```sh
 $ sudo apt-add-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 ```
@@ -65,7 +67,7 @@ $ sudo apt-add-repository "deb [arch=amd64] https://download.docker.com/linux/ub
 $ sudo apt-get update
 ```
 
-### 6. Instalando a versão mais recente do docker
+### 6. Instalando a versão mais recente do Docker
 ```sh
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
