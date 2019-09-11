@@ -3,9 +3,9 @@
 
 Docker é uma ferramenta projetada para facilitar a criação, a implementação e a execução de aplicativos usando containers.
 
-Primeiramente temos que definir o que não é Docker. Docker não é um sistema de virtualização tradicional, enquanto em um ambiente de virtualização tradicional nós temos um Sistema Operacional completo e isolado, dentro do Docker nós temos recursos isolados que utilizando bibliotecas de kernel em comum.
+Primeiramente temos que definir o que não é Docker. Docker não é um sistema de virtualização tradicional, enquanto em um ambiente de virtualização tradicional nós temos um Sistema Operacional completo e isolado, dentro do Docker nós temos recursos isolados que utilizam bibliotecas de kernel em comum.
 
-Além de tudo Docker é uma plataforma Open Source escrito em Go, que é uma linguagem de programação de alto desempenho desenvolvida dentro do Google, que facilita a criação e administração de ambientes isolados.
+Além de tudo, Docker é uma plataforma Open Source escrita em Go, que é uma linguagem de programação de alto desempenho desenvolvida dentro do Google, que facilita a criação e administração de ambientes isolados.
 
 ## Vantagens
 
