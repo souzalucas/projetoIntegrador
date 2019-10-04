@@ -8,8 +8,11 @@
     "react-dom": "^16.10.1",
     "react-scripts": "0.9.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  },
   "scripts": {
+    "dev": "nodemon backend/src/server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
