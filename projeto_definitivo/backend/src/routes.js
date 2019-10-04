@@ -1,7 +1,7 @@
 //Retorna uma função do módulo do express, porém não a executa
 var express = require('express');
 var router = express.Router();
-var connection = require('./connection')
+var connection = require('./src/connection')
 
 const SELECT_ALL_AREAS_QUERY = 'SELECT * FROM areas_de_atividade';
 
