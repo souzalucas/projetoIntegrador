@@ -9,9 +9,12 @@ const SELECT_ALL_AREAS_QUERY = 'SELECT * FROM areas_de_atividade';
 router.get('/', function(req,res){
    res.send('Vá para /areas para ver as areas de atividade');
 });
-
+   
 router.post('/teste',function(req,res){
-   res.send('Teste');
+      //req.query = Acessar query params(para filtros)
+      //req.params = Acessar route params(para edição,delite) 
+      //req.body = Acessar corpo da requisição(para criação e edição)
+      return res.json(req.body);
 });
 
 router.get('/areas', function(req,res){
