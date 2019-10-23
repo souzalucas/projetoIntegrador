@@ -60,4 +60,4 @@ typings/
 # next.js build output
 .next
 
-./API/backend/src/config/database.js
+API/backend/src/config/database.js
