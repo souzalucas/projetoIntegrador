@@ -61,3 +61,7 @@ typings/
 .next
 
 API/backend/src/config/database.js
+
+API/frontend/package-lock.json
+
+API/frontend/package.json
