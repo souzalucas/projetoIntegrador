@@ -1,11 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Link, Nav, withRouter} from 'react-router-dom';
+
 
 
 import { Layout, Menu, Icon,  Form,
   Input, Tooltip ,Button, } from 'antd';
 
 const { Header, Sider, Content } = Layout;
+
+const links = [
+  {route: "/", label:"Home", icon:"bug", key:"1"},
+  {route: "/alunos", label:"Alunos", icon:"user", key:"2"},
+  {route: "/professores", label:"Professores", icon:"form", key:"3"},
+  {route: "/turmas", label:"Turmas", icon:"team", key:"4"},
+  {route: "/atividades", label:"Atividades", icon:"thunderbolt", key:"5"},
+  {route: "/areas", label:"Areas", icon:"bank", key:"6"},
+];
 
 class MainLayout extends React.Component {
   state = {
@@ -20,6 +31,17 @@ class MainLayout extends React.Component {
     });
   };
 
+  renderLink = () => {
+    return links.map( link =>
+      <Menu.Item key={link.key}>
+        <Icon type={link.icon}/>
+        <span>{link.label}</span>
+        <Link key={link.key} to={link.route}>
+        </Link>
+      </Menu.Item>
+    )
+  }
+
   render() {
 
     return (
@@ -27,31 +49,7 @@ class MainLayout extends React.Component {
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <span>Alunos</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="form" />
-              <span>Professores</span>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="team" />
-              <span>Turmas</span>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Icon type="thunderbolt" />
-              <span>Atividades</span>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <Icon type="bank" />
-              <span>Areas de Atividades</span>
-            </Menu.Item>
-            <Menu.Item key="6">
-              <Icon type="bug" />
-              <span>T E S T E</span>
-
-            </Menu.Item>
+            { this.renderLink() }
           </Menu>
         </Sider>
         <Layout>
@@ -79,4 +77,4 @@ class MainLayout extends React.Component {
   }
 }
 
-export default MainLayout;
+export default withRouter(MainLayout);

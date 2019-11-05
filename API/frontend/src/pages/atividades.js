@@ -1,6 +1,6 @@
 
 import React from 'react';
-import "./areaAtividades.css";
+import "./areas.css";
 import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
 
 import MainLayout from '../layouts';
