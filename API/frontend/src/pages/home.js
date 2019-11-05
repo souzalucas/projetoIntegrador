@@ -1,7 +1,5 @@
 
 import React from 'react';
-import "./areas.css";
-
 import MainLayout from '../layouts';
 
 function Home() {

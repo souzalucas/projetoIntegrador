@@ -1,8 +1,6 @@
 
 import React from 'react';
-import "./areas.css";
-
-import MainLayout from '../layouts';
+import MainLayout from '../../layouts';
 
 function Turmas() {
     return (

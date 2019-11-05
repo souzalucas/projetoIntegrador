@@ -1,9 +1,8 @@
-
 import React from 'react';
 import "./areas.css";
 import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
 
-import MainLayout from '../layouts';
+import MainLayout from '../../layouts';
 
 const data = [
     {

@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Link, Nav, withRouter} from 'react-router-dom';
 
 
 
-import { Layout, Menu, Icon,  Form,
-  Input, Tooltip ,Button, } from 'antd';
+import { Layout, Menu, Icon} from 'antd';
 
 const { Header, Sider, Content } = Layout;
 
