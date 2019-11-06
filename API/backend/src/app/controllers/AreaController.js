@@ -1,59 +1,47 @@
-const { Area } = require('../models');
+const models = require('../models');
+const bcrypt = require('bcrypt');
 
-class AreaController {
-  async index(req, res) {
+const addArea = async (nome, descricao) => {
+    let transaction;
+
     try {
-      const areas = await Area.findAll();
+        transaction = await models.sequelize.transaction();
 
-      return res.json(areas);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
+        const ret = await models.Area.create({
+            nome, descricao
+        });
+
+        await transaction.commit();
+        return ret;
+
+    } catch (error) {
+        await transaction.rollback();
+        return null;
     }
-  }
-
-  async show(req, res) {
-    try {
-      const area = await Area.findByPk(req.params.id);
-
-      return res.json(area);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async store(req, res) {
-    try {
-      const area = await Area.create(req.body);
-
-      return res.json(area);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async update(req, res) {
-    try {
-      const area = await Area.findByPk(req.params.id);
-
-      await area.update(req.body);
-
-      return res.json({ area });
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async destroy(req, res) {
-    try {
-      const area = await Area.findByPk(req.params.id);
-
-      await area.destroy();
-
-      return res.json();
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
 }
 
-module.exports = new AreaController();
+const listArea = async () => {
+    const areas = await models.Area.findAll();
+
+    return areas.map(el => ({
+        nome: el.nome,
+        descricao: el.descricao,
+    }));
+}
+
+const deleteArea = async (id) => {
+    const area = await models.Area.findOne({
+      where: { id },
+    });
+
+    if (area === null) return null;
+  
+    const ret = await area.destroy();
+    return ret;
+  };
+
+module.exports = {
+    addArea,
+    listArea,
+    deleteArea
+}
