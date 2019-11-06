@@ -24,6 +24,7 @@ const listArea = async () => {
     const areas = await models.Area.findAll();
 
     return areas.map(el => ({
+        id: el.id,
         nome: el.nome,
         descricao: el.descricao,
     }));

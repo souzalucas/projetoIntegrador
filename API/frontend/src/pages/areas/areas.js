@@ -38,7 +38,7 @@ class App extends React.Component {
         let { nome, descricao } = this.state
 		
         create(nome, descricao).then(() => {
-          this.props.history.push('/areas')
+          return findAll().then(data => this.setState({ areas: data }))
         })
       }
     });
@@ -81,6 +81,12 @@ class Lista extends React.Component {
 	componentDidMount() {
 		findAll().then(data => this.setState({ areas: data }))
   }
+
+  handleDelete(area) {
+		remove(area.id).then( () => {
+			return findAll().then(data => this.setState({ areas: data }))
+		})
+	}
   
   render() {
     let { areas } = this.state
@@ -94,12 +100,17 @@ class Lista extends React.Component {
               itemLayout="horizontal"
               dataSource={areas}
               renderItem={item => (
-                  <List.Item>
-                  <List.Item.Meta
-                      avatar={<Avatar src="https://cdn0.iconfinder.com/data/icons/travel-glyph-4/32/google_direction_locate-512.png" />}
-                      title={item.nome}
-                      description={item.descricao}
-                  />
+                  <List.Item
+                    actions={[
+                      <a key="list-loadmore-edit">editar</a>, 
+                      <a key="list-loadmore-more" onClick={ () => this.handleDelete(item) }>remover</a>
+                    ]}
+                  >
+                    <List.Item.Meta
+                        avatar={<Avatar src="https://cdn0.iconfinder.com/data/icons/travel-glyph-4/32/google_direction_locate-512.png" />}
+                        title={item.nome}
+                        description={item.descricao}
+                    />
                   </List.Item>
               )}
           />

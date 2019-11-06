@@ -9,6 +9,7 @@ routes.get('/areas', async (req, res) => {
 
     return res.json(
         areas.map(area => ({
+            id: area.id,
             nome: area.nome,
             descricao: area.descricao,
         })),
