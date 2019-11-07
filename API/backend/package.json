@@ -9,8 +9,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql2": "^1.7.0",
-    "nodemon": "^1.19.3",
-    "sequelize": "^5.19.6"
+    "nodemon": "^1.19.4",
+    "sequelize": "^5.21.1"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.1"
