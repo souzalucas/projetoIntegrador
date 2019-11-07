@@ -1,59 +1,72 @@
-const { Atividade } = require('../models');
+const models = require('../models');
+const bcrypt = require('bcrypt');
 
-class AtividadeController {
-  async index(req, res) {
+const addAtividade = async (nome, descricao) => {
+    let transaction;
+
     try {
-      const atividades = await Atividade.findAll();
+        transaction = await models.sequelize.transaction();
 
-      return res.json(atividades);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
+        const ret = await models.Atividade.create({
+            nome, descricao
+        });
+
+        await transaction.commit();
+        return ret;
+
+    } catch (error) {
+        await transaction.rollback();
+        return null;
     }
-  }
-
-  async show(req, res) {
-    try {
-      const atividade = await Atividade.findByPk(req.params.id);
-
-      return res.json(atividade);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async store(req, res) {
-    try {
-      const atividade = await Atividade.create(req.body);
-
-      return res.json(atividade);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async update(req, res) {
-    try {
-      const atividade = await Atividade.findByPk(req.params.id);
-
-      await atividade.update(req.body);
-
-      return res.json({ atividade });
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
-
-  async destroy(req, res) {
-    try {
-      const atividade = await Atividade.findByPk(req.params.id);
-
-      await atividade.destroy();
-
-      return res.json();
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
 }
 
-module.exports = new AtividadeController();
+const listAtividade = async () => {
+    const atividades = await models.Atividade.findAll();
+
+    return atividades.map(el => ({
+        id: el.id,
+        nome: el.nome,
+        descricao: el.descricao,
+    }));
+}
+
+const deleteAtividade = async (id) => {
+    const atividade = await models.Atividade.findOne({
+      where: { id },
+    });
+
+    if (atividade === null) return null;
+  
+    const ret = await atividade.destroy();
+    return ret;
+};
+
+const updateAtividade = async (id, dados) => {
+    const atividade = await models.Atividade.findOne({
+      where: { id },
+    });
+  
+    if (atividade === null) return null;
+  
+    const { nome, descricao } = dados;
+  
+    if (Object.keys(obj).length !== 0) {
+      try {
+        await atividade.update({nome, descricao});
+        const ret = await models.Atividade.findOne({
+          where: { id },
+        });
+        return ret;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+};
+
+module.exports = {
+    addAtividade,
+    listAtividade,
+    deleteAtividade,
+    updateAtividade,
+}

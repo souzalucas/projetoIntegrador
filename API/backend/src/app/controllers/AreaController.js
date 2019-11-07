@@ -39,10 +39,34 @@ const deleteArea = async (id) => {
   
     const ret = await area.destroy();
     return ret;
-  };
+};
+
+const updateArea = async (id, dados) => {
+    const area = await models.Area.findOne({
+      where: { id },
+    });
+  
+    if (area === null) return null;
+  
+    const { nome, descricao } = dados;
+  
+    if (Object.keys(obj).length !== 0) {
+      try {
+        await area.update({nome, descricao});
+        const ret = await models.Area.findOne({
+          where: { id },
+        });
+        return ret;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+};
 
 module.exports = {
     addArea,
     listArea,
-    deleteArea
+    deleteArea,
+    updateArea,
 }

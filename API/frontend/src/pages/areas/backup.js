@@ -1,7 +1,7 @@
 import React from 'react';
-import "./atividades.css";
+import "./areas.css";
 import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
-import { findAll, remove, create, update } from './atividadesAPI'
+import { findAll, remove, create } from './areasAPI'
 
 import MainLayout from '../../layouts';
 
@@ -15,17 +15,17 @@ class App extends React.Component {
 		this.state = { nome: '', descricao: '' }
 
 		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleAtividadeDescricao = this.handleAtividadeDescricao.bind(this)
-		this.handleAtividadeNome = this.handleAtividadeNome.bind(this)
+		this.handleAreaDescricao = this.handleAreaDescricao.bind(this)
+		this.handleAreaNome = this.handleAreaNome.bind(this)
 	}
 
-	handleAtividadeNome(e) {
+	handleAreaNome(e) {
 		return this.setState({
 			nome: e.target.value
 		})
 	}
 
-	handleAtividadeDescricao(e) {
+	handleAreaDescricao(e) {
 		return this.setState({
 			descricao: e.target.value
 		})
@@ -38,7 +38,7 @@ class App extends React.Component {
         let { nome, descricao } = this.state
 		
         create(nome, descricao).then(() => {
-          return findAll().then(data => this.setState({ atividades: data }))
+          return findAll().then(data => this.setState({ areas: data }))
         })
       }
     });
@@ -51,12 +51,12 @@ class App extends React.Component {
         <Form.Item label="Nome">
           {getFieldDecorator('nome', {
             rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-          })(<Input type="text" name="nome" placeholder="Nome da Atividade: " onChange={this.handleAtividadeNome} />)}
+          })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: " onChange={this.handleAreaNome} />)}
         </Form.Item>
         <Form.Item label="Descrição">
           {getFieldDecorator('descrição', {
             rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-          })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Atividade: " onChange={this.handleAtividadeDescricao} />)}
+          })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: " onChange={this.handleAreaDescricao} />)}
         </Form.Item >
         
         <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
@@ -75,21 +75,17 @@ class Lista extends React.Component {
   constructor(props) {
 		super(props)
 
-		this.state = { atividades: [] }
+		this.state = { areas: [] }
   }
   
   state = {
     loading: false,
     visible: false,
-    nomeEdit: '',
-    descricaoEdit: '',
   };
 
-  showModal(atividade){
+  showModal = () => {
     this.setState({
       visible: true,
-      nomeEdit: atividade.nome,
-      descricaoEdit: atividade.descricao,
     });
   };
 
@@ -105,33 +101,32 @@ class Lista extends React.Component {
   };
 
 	componentDidMount() {
-		findAll().then(data => this.setState({ atividades: data }))
+		findAll().then(data => this.setState({ areas: data }))
   }
 
-  handleDelete(atividade) {
-		remove(atividade.id).then( () => {
-			return findAll().then(data => this.setState({ atividades: data }))
+  handleDelete(area) {
+		remove(area.id).then( () => {
+			return findAll().then(data => this.setState({ areas: data }))
 		})
-	}
+  }
   
   render() {
-    let { atividades } = this.state
+    let { areas } = this.state
     const { visible, loading } = this.state;
-    let { nomeEdit, descricaoEdit } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <MainLayout>
-          <h1>Atividades</h1>
+          <h1>Areas de Atividade</h1>
 
           <WrappedApp />
 
           <List
               itemLayout="horizontal"
-              dataSource={atividades}
+              dataSource={areas}
               renderItem={item => (
                   <List.Item
                     actions={[
-                      <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>, 
+                      <a key="list-loadmore-edit" onClick={this.showModal()} >editar</a>, 
                       <a key="list-loadmore-more" onClick={ () => this.handleDelete(item) }>remover</a>
                     ]}
                   >
@@ -145,12 +140,12 @@ class Lista extends React.Component {
           />
           <Modal
             visible={visible}
-            title="Editar Atividade"
+            title="Title"
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             footer={[
               <Button key="back" onClick={this.handleCancel}>
-                Calcelar
+                Cancelar
               </Button>,
               <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
                 Editar
@@ -161,12 +156,12 @@ class Lista extends React.Component {
               <Form.Item label="Nome">
                 {getFieldDecorator('nome', {
                   rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-                })(<Input type="text" name="nome" placeholder="Nome da Atividade: " value={nomeEdit}/>)}
+                })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: "/>)}
               </Form.Item>
               <Form.Item label="Descrição">
                 {getFieldDecorator('descrição', {
                   rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Atividade: " value={descricaoEdit} />)}
+                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: "/>)}
               </Form.Item >
             </Form>
           </Modal>
@@ -175,11 +170,11 @@ class Lista extends React.Component {
   }
 }
 
-const ListaAtividades = Form.create({ name: 'coordinated' })(Lista);
+const ListaAreas = Form.create({ name: 'coordinated' })(Lista);
 
-function Atividades() {
+function Areas() {
     return (
-      <ListaAtividades />
+      <ListaAreas />
     )
 }
-export default Atividades;
+export default Areas;

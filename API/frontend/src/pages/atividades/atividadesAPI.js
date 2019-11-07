@@ -4,25 +4,25 @@ import axios from 'axios'
 const URL = 'http://localhost:8080'
 
 const create = (nome, descricao) => {
-	const url = `${URL}/areas`
+	const url = `${URL}/atividades`
 
 	return axios.post(url, { nome, descricao }).then(response => response.data)
 }
 
 const findAll = () => {
-	const url = `${URL}/areas`
+	const url = `${URL}/atividades`
 
 	return axios.get(url).then(response => response.data)
 }
 
 const remove = (id) => {
-	const url = `${URL}/areas/${id}`
+	const url = `${URL}/atividades/${id}`
 	
 	return axios.delete(url).then(response => response.data)
 }
 
 const update = (id, nome, descricao) => {
-	const url = `${URL}/areas/${id}`
+	const url = `${URL}/atividades/${id}`
 	
 	return axios.put(url, { nome, descricao }).then(response => response.data)
 }

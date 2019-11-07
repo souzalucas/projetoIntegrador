@@ -65,3 +65,7 @@ API/backend/src/config/database.js
 API/frontend/package-lock.json
 
 API/frontend/package.json
+
+API/backend/package-lock.json
+
+API/backend/package.json

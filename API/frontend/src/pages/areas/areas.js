@@ -1,7 +1,7 @@
 import React from 'react';
 import "./areas.css";
 import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
-import { findAll, remove, create } from './areasAPI'
+import { findAll, remove, create, update } from './areasAPI'
 
 import MainLayout from '../../layouts';
 
@@ -76,7 +76,33 @@ class Lista extends React.Component {
 		super(props)
 
 		this.state = { areas: [] }
-	}
+  }
+  
+  state = {
+    loading: false,
+    visible: false,
+    nomeEdit: '',
+    descricaoEdit: '',
+  };
+
+  showModal(area){
+    this.setState({
+      visible: true,
+      nomeEdit: area.nome,
+      descricaoEdit: area.descricao,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
 
 	componentDidMount() {
 		findAll().then(data => this.setState({ areas: data }))
@@ -90,6 +116,9 @@ class Lista extends React.Component {
   
   render() {
     let { areas } = this.state
+    const { visible, loading } = this.state;
+    let { nomeEdit, descricaoEdit } = this.state;
+    const { getFieldDecorator } = this.props.form;
     return (
       <MainLayout>
           <h1>Areas de Atividade</h1>
@@ -102,7 +131,7 @@ class Lista extends React.Component {
               renderItem={item => (
                   <List.Item
                     actions={[
-                      <a key="list-loadmore-edit">editar</a>, 
+                      <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>, 
                       <a key="list-loadmore-more" onClick={ () => this.handleDelete(item) }>remover</a>
                     ]}
                   >
@@ -114,6 +143,33 @@ class Lista extends React.Component {
                   </List.Item>
               )}
           />
+          <Modal
+            visible={visible}
+            title="Editar Area de Atividade"
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <Button key="back" onClick={this.handleCancel}>
+                Calcelar
+              </Button>,
+              <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+                Editar
+              </Button>,
+            ]}
+          >
+            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+              <Form.Item label="Nome">
+                {getFieldDecorator('nome', {
+                  rules: [{ required: true, message: 'Por favor, insira um nome!' }],
+                })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: " value={nomeEdit}/>)}
+              </Form.Item>
+              <Form.Item label="Descrição">
+                {getFieldDecorator('descrição', {
+                  rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
+                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: " value={descricaoEdit} />)}
+              </Form.Item >
+            </Form>
+          </Modal>
       </MainLayout>
     );
   }
