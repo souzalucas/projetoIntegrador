@@ -1,14 +1,13 @@
 import React from 'react';
-import {Link, Nav, withRouter} from 'react-router-dom';
-
-
-
+import {Link, withRouter} from 'react-router-dom';
 import { Layout, Menu, Icon} from 'antd';
+import img from '../logo1.png'
+import './index.css'
 
 const { Header, Sider, Content } = Layout;
 
 const links = [
-  {route: "/", label:"Home", icon:"bug", key:"1"},
+  {route: "/", label:"Home", icon:"home", key:"1"},
   {route: "/alunos", label:"Alunos", icon:"user", key:"2"},
   {route: "/professores", label:"Professores", icon:"form", key:"3"},
   {route: "/turmas", label:"Turmas", icon:"team", key:"4"},
@@ -45,8 +44,10 @@ class MainLayout extends React.Component {
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <div className="logop">
+            <img src={img}/>
+          </div>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
             { this.renderLink() }
           </Menu>
         </Sider>
@@ -57,7 +58,7 @@ class MainLayout extends React.Component {
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
-            <span>Controle do Complexo Esportivo Municipal</span>
+            <span>Controle do Complexo Esportivo Municipal de Campo Mourão</span>
           </Header>
           <Content
             style={{

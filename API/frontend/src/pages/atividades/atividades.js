@@ -1,9 +1,20 @@
 import React from 'react';
 import "./atividades.css";
-import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
+import { Select, Form, Input, Button, Modal, List, Avatar, Popconfirm, message} from 'antd';
 import { findAll, remove, create, update } from './atividadesAPI'
 
 import MainLayout from '../../layouts';
+
+function confirm(e) {
+  console.log(e);
+  message.success('Atividade removida');
+  
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Remoção cancelada');
+}
 
 const { TextArea } = Input;
 
@@ -131,12 +142,20 @@ class Lista extends React.Component {
               renderItem={item => (
                   <List.Item
                     actions={[
-                      <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>, 
-                      <a key="list-loadmore-more" onClick={ () => this.handleDelete(item) }>remover</a>
+                      <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>,
+                      <Popconfirm
+                        title="Tem certeza que deseja reover atividade?"
+                        onConfirm={() => this.handleDelete(item)}
+                        onCancel={cancel}
+                        okText="Sim"
+                        cancelText="Não"
+                      >
+                        <a key="list-loadmore-more">remover</a>
+                      </Popconfirm>,
                     ]}
                   >
                     <List.Item.Meta
-                        avatar={<Avatar src="https://cdn0.iconfinder.com/data/icons/travel-glyph-4/32/google_direction_locate-512.png" />}
+                        avatar={<Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4MKKGRATF2Kc_G8xdZbNmgC_g68WzZhiRgJU22Vz9cd0Op_KMuQ&s" />}
                         title={item.nome}
                         description={item.descricao}
                     />

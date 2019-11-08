@@ -7,6 +7,7 @@ import Atividades from './pages/atividades/atividades';
 import Turmas from './pages/turmas/turmas';
 import Professores from './pages/professores/professores';
 import Alunos from './pages/alunos/alunos';
+import Login from './pages/login/login';
 
 export class Routes extends Component {    
     render(){
@@ -19,6 +20,7 @@ export class Routes extends Component {
                     <Route path="/alunos" component={Alunos}/>
                     <Route path="/professores" component={Professores}/>
                     <Route path="/turmas" component={Turmas}/>
+                    <Route path="/login" component={Login}/>
                 </Switch>
             </Router>
         )

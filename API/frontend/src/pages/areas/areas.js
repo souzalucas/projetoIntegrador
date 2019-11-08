@@ -1,9 +1,20 @@
 import React from 'react';
 import "./areas.css";
-import { Select, Form, Input, Button, Modal, List, Avatar} from 'antd';
+import { Select, Form, Input, Button, Modal, List, Avatar, Popconfirm, message} from 'antd';
 import { findAll, remove, create, update } from './areasAPI'
 
 import MainLayout from '../../layouts';
+
+function confirm(e) {
+  console.log(e);
+  message.success('Atividade removida');
+  
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Remoção cancelada');
+}
 
 const { TextArea } = Input;
 
@@ -132,11 +143,19 @@ class Lista extends React.Component {
                   <List.Item
                     actions={[
                       <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>, 
-                      <a key="list-loadmore-more" onClick={ () => this.handleDelete(item) }>remover</a>
+                      <Popconfirm
+                        title="Tem certeza que deseja reover atividade?"
+                        onConfirm={() => this.handleDelete(item)}
+                        onCancel={cancel}
+                        okText="Sim"
+                        cancelText="Não"
+                      >
+                        <a key="list-loadmore-more">remover</a>
+                      </Popconfirm>,
                     ]}
                   >
                     <List.Item.Meta
-                        avatar={<Avatar src="https://cdn0.iconfinder.com/data/icons/travel-glyph-4/32/google_direction_locate-512.png" />}
+                        avatar={<Avatar src="https://cdn2.iconfinder.com/data/icons/cycle/154/map-pointer-geo-location-velo-cycle-sport-drive-512.png" />}
                         title={item.nome}
                         description={item.descricao}
                     />
