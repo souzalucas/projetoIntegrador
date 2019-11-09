@@ -5,12 +5,6 @@ import { findAll, remove, create, update } from './atividadesAPI'
 
 import MainLayout from '../../layouts';
 
-function confirm(e) {
-  console.log(e);
-  message.success('Atividade removida');
-  
-}
-
 function cancel(e) {
   console.log(e);
   message.error('Remoção cancelada');
@@ -28,7 +22,20 @@ class App extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleAtividadeDescricao = this.handleAtividadeDescricao.bind(this)
 		this.handleAtividadeNome = this.handleAtividadeNome.bind(this)
-	}
+  }
+  
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
 
 	handleAtividadeNome(e) {
 		return this.setState({
@@ -43,6 +50,11 @@ class App extends React.Component {
 	}
 
 	handleSubmit = e => {
+    
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -58,24 +70,40 @@ class App extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
-        <Form.Item label="Nome">
-          {getFieldDecorator('nome', {
-            rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-          })(<Input type="text" name="nome" placeholder="Nome da Atividade: " onChange={this.handleAtividadeNome} />)}
-        </Form.Item>
-        <Form.Item label="Descrição">
-          {getFieldDecorator('descrição', {
-            rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-          })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Atividade: " onChange={this.handleAtividadeDescricao} />)}
-        </Form.Item >
-        
-        <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
-          <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
-            Cadastrar
+      <div>
+        <h2 className="titulo_ativ">Atividades
+          <Button className="botao_ativ" type="primary" onClick={this.showModal}>
+            Cadastrar atividade
           </Button>
-        </Form.Item>
-      </Form>
+        </h2>
+        <Modal
+          title="Cadastar Area de Atividade"
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button  onClick={this.handleCancel}>
+              Calcelar
+            </Button>,
+            <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
+              Cadastrar
+            </Button>,
+          ]}
+        >
+        <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+          <Form.Item label="Nome">
+            {getFieldDecorator('nome', {
+              rules: [{ required: true, message: 'Por favor, insira um nome!' }],
+            })(<Input type="text" name="nome" placeholder="Nome da Atividade " allowClear onChange={this.handleAtividadeNome} />)}
+          </Form.Item>
+          <Form.Item label="Descrição">
+            {getFieldDecorator('descrição', {
+              rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
+            })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Atividade " allowClear onChange={this.handleAtividadeDescricao} />)}
+          </Form.Item >
+        </Form>
+      </Modal>
+      </div>
     );
   }
 }
@@ -119,7 +147,9 @@ class Lista extends React.Component {
 		findAll().then(data => this.setState({ atividades: data }))
   }
 
-  handleDelete(atividade) {
+  handleDelete(atividade){
+    console.log(atividade);
+    message.success('Atividade removida');
 		remove(atividade.id).then( () => {
 			return findAll().then(data => this.setState({ atividades: data }))
 		})
@@ -132,8 +162,6 @@ class Lista extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <MainLayout>
-          <h1>Atividades</h1>
-
           <WrappedApp />
 
           <List
