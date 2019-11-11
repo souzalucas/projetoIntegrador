@@ -42,26 +42,24 @@ const deleteAtividade = async (id) => {
 };
 
 const updateAtividade = async (id, dados) => {
-    const atividade = await models.Atividade.findOne({
+  const atividade = await models.Atividade.findOne({
+    where: { id },
+  });
+
+  if (atividade === null) return null;
+
+  const { nome, descricao } = dados;
+
+  try {
+    await atividade.update({nome, descricao});
+    const ret = await models.Atividade.findOne({
       where: { id },
     });
-  
-    if (atividade === null) return null;
-  
-    const { nome, descricao } = dados;
-  
-    if (Object.keys(obj).length !== 0) {
-      try {
-        await atividade.update({nome, descricao});
-        const ret = await models.Atividade.findOne({
-          where: { id },
-        });
-        return ret;
-      } catch (error) {
-        return null;
-      }
-    }
+    return ret;
+  } catch (error) {
     return null;
+  }
+  return null;
 };
 
 module.exports = {

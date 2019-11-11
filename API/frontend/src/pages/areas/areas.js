@@ -35,6 +35,7 @@ class App extends React.Component {
     this.setState({
       visible: false,
     });
+    this.props.form.resetFields();
   };
 
 	handleAreaNome(e) {
@@ -60,6 +61,7 @@ class App extends React.Component {
         let { nome, descricao } = this.state
 		
         create(nome, descricao).then(() => {
+          this.props.form.resetFields();
           return findAll().then(data => this.setState({ areas: data }))
         })
       }
@@ -72,7 +74,7 @@ class App extends React.Component {
       <div>
       <h2 className="titulo_area">Areas de Atividade
         <Button className="botao_area" type="primary" onClick={this.showModal}>
-            Cadastrar area de atividades
+            Cadastrar area de atividade
           </Button>
         </h2>
         <Modal
@@ -113,33 +115,56 @@ class Lista extends React.Component {
   constructor(props) {
 		super(props)
 
-		this.state = { areas: [] }
+    this.state = { areas: [], id: '', nome: '', descricao: '' }
+
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleAreaDescricao = this.handleAreaDescricao.bind(this)
+		this.handleAreaNome = this.handleAreaNome.bind(this)
   }
-  
+
+	handleAreaNome(e) {
+		return this.setState({
+			nome: e.target.value
+		})
+	}
+
+	handleAreaDescricao(e) {
+		return this.setState({
+			descricao: e.target.value
+		})
+	}
+
+	handleSubmit = e => {
+    this.setState({
+      visible: false,
+    });
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let { id, nome, descricao } = this.state
+        update(id, nome, descricao).then(() => {
+          this.props.form.resetFields();
+          return findAll().then(data => this.setState({ areas: data }))
+        })
+      }
+    });
+  };
+
   state = {
     loading: false,
     visible: false,
-    nomeEdit: '',
-    descricaoEdit: '',
   };
 
   showModal(area){
     this.setState({
       visible: true,
-      nomeEdit: area.nome,
-      descricaoEdit: area.descricao,
+      id: area.id,
     });
-  };
-
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
   };
 
   handleCancel = () => {
     this.setState({ visible: false });
+    this.props.form.resetFields();
   };
 
 	componentDidMount() {
@@ -157,7 +182,6 @@ class Lista extends React.Component {
   render() {
     let { areas } = this.state
     const { visible, loading } = this.state;
-    let { nomeEdit, descricaoEdit } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <MainLayout>
@@ -171,7 +195,7 @@ class Lista extends React.Component {
                     actions={[
                       <a key="list-loadmore-edit" onClick={ () => this.showModal(item) }>editar</a>, 
                       <Popconfirm
-                        title="Tem certeza que deseja reover atividade?"
+                        title="Tem certeza que deseja remover area?"
                         onConfirm={() => this.handleDelete(item)}
                         onCancel={cancel}
                         okText="Sim"
@@ -192,13 +216,13 @@ class Lista extends React.Component {
           <Modal
             visible={visible}
             title="Editar Area de Atividade"
-            onOk={this.handleOk}
+            onOk={this.handleSubmit}
             onCancel={this.handleCancel}
             footer={[
               <Button key="back" onClick={this.handleCancel}>
                 Calcelar
               </Button>,
-              <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+              <Button key="submit" type="primary" loading={loading} onClick={this.handleSubmit}>
                 Editar
               </Button>,
             ]}
@@ -207,12 +231,12 @@ class Lista extends React.Component {
               <Form.Item label="Nome">
                 {getFieldDecorator('nome', {
                   rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-                })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: " value={nomeEdit}/>)}
+                })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: " onChange={this.handleAreaNome} />)}
               </Form.Item>
               <Form.Item label="Descrição">
                 {getFieldDecorator('descrição', {
                   rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: " value={descricaoEdit} />)}
+                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: " onChange={this.handleAreaDescricao} />)}
               </Form.Item >
             </Form>
           </Modal>

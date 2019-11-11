@@ -50,16 +50,14 @@ const updateArea = async (id, dados) => {
   
     const { nome, descricao } = dados;
   
-    if (Object.keys(obj).length !== 0) {
-      try {
-        await area.update({nome, descricao});
-        const ret = await models.Area.findOne({
-          where: { id },
-        });
-        return ret;
-      } catch (error) {
-        return null;
-      }
+    try {
+      await area.update({nome, descricao});
+      const ret = await models.Area.findOne({
+        where: { id },
+      });
+      return ret;
+    } catch (error) {
+      return null;
     }
     return null;
 };
