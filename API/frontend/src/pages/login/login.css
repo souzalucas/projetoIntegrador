@@ -1,5 +1,7 @@
-body{
-  background: #FFFFFF url("../../login.jpg") no-repeat right top fixed; 
+.login{
+  background-image: url("../../login.jpg");
+  background-position: center;
+  background-size: 100%;
 }
 
 .login img{
@@ -9,3 +11,8 @@ body{
   margin-right: auto
 }
 
+body{
+  background-image: url("../../2OXhkn.jpg");
+  background-position: center;
+  background-size: 100%;
+}

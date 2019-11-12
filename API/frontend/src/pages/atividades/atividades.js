@@ -63,7 +63,7 @@ class App extends React.Component {
 		
         create(nome, descricao).then(() => {
           this.props.form.resetFields();
-          return findAll().then(data => this.setState({ atividades: data }))
+          return findAll().then(data => this.setState({ atividades: data }),window.location.reload())
         })
       }
     });
