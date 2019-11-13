@@ -1,0 +1,39 @@
+module.exports = {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('usuarios', {
+    id:{
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER,
+    },
+    cpf: {
+      allowNull: false,
+      type: Sequelize.STRING(11),
+    },
+    nome: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+    telefone: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+    // data_nascimento: {
+    //   allowNull: false,
+    //   type: Sequelize.DATE,
+    // },
+    sexo: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+    created_at: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    updated_at: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+  }),
+  down: queryInterface => queryInterface.dropTable('usuarios'),
+};

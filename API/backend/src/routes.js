@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const AreaController = require('./app/controllers/AreaController');
 const AtividadeController = require('./app/controllers/AtividadeController');
+const UsuarioController = require('./app/controllers/UsuarioController');
 
 const routes = Router();
 
@@ -109,5 +110,42 @@ routes.put('/atividades/:id', async (req, res) => {
 });
 
 // routes.get('/atividades/:id', AtividadeController.show);
+
+routes.get('/usuario', async (req, res) => {
+    const usuarios = await UsuarioController.listUsuario();
+
+    return res.json(
+        usuarios.map(usuario => ({
+            cpf: usuario.cpf,
+            nome: usuario.nome,
+            telefone: usuario.telefone,
+            // data_nascimento: usuario.data_nascimento,
+            sexo: usuario.sexo,
+            // tipo: usuario.tipo,
+        })),
+    )
+});
+
+routes.post('/usuario', async (req, res) => {
+    if (!req.body) return res.status(400).send();
+    //data_nascimento,tipo
+    const { cpf, nome, telefone, sexo } = req.body;
+    //data_nascimento,tipo
+    const ret = await UsuarioController.addUsuario(cpf, nome, telefone, sexo);
+
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
+
+//conferir req.params, ainda acho que seria pelo req.body
+routes.delete('/usuario/:cpf', async (req, res) => {
+    const { cpf } = req.params;
+
+    const ret = await UsuarioController.deleteUsuario(cpf);
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
 
 module.exports = routes;
