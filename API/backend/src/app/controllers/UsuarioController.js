@@ -36,6 +36,7 @@ const listUsuario = async () => {
 }
 
 const deleteUsuario = async (cpf) => {
+    models.Usuario.removeAttribute("id");
     const usuario = await models.Usuario.findOne({
         where: {cpf},
     });
@@ -44,7 +45,6 @@ const deleteUsuario = async (cpf) => {
 
     const ret = await usuario.destroy();
     return ret;
-
 };
 
 //Fazer função update
