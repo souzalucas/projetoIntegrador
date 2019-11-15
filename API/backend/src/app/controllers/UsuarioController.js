@@ -8,8 +8,9 @@ const addUsuario = async (cpf,nome,telefone,sexo) => {
     try{
         transaction = await models.sequelize.transaction();
         //data_nascimento,tipo
+        models.Usuario.removeAttribute("id");
         const ret = await models.Usuario.create({
-            cpf,nome,telefone,sexo
+            cpf: cpf, nome: nome, telefone: telefone, sexo: sexo
         });
 
         await transaction.commit();
@@ -22,7 +23,7 @@ const addUsuario = async (cpf,nome,telefone,sexo) => {
 }
 
 const listUsuario = async () => {
-    const usuario = await models.Usuario.findAll();
+    const usuario = await models.Usuario.findAll({attributes: ['cpf', 'nome', 'telefone', 'sexo',]});
 
     return usuario.map(el => ({
         cpf: el.cpf,
