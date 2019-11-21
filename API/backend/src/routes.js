@@ -121,7 +121,7 @@ routes.get('/usuario', async (req, res) => {
             telefone: usuario.telefone,
             // data_nascimento: usuario.data_nascimento,
             sexo: usuario.sexo,
-            // tipo: usuario.tipo,
+            profissao: usuario.profissao,
         })),
     )
 });
@@ -129,9 +129,9 @@ routes.get('/usuario', async (req, res) => {
 routes.post('/usuario', async (req, res) => {
     if (!req.body) return res.status(400).send();
     //data_nascimento,tipo
-    const { cpf, nome, telefone, sexo } = req.body;
+    const { cpf, nome, telefone, sexo, profissao } = req.body;
     //data_nascimento,tipo
-    const ret = await UsuarioController.addUsuario(cpf, nome, telefone, sexo);
+    const ret = await UsuarioController.addUsuario(cpf, nome, telefone, sexo, profissao);
 
     if (ret === null) return res.json({ msg: 'erro' });
 
@@ -143,6 +143,24 @@ routes.delete('/usuario/:cpf', async (req, res) => {
     const { cpf } = req.params;
 
     const ret = await UsuarioController.deleteUsuario(cpf);
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
+
+routes.put('/usuario/:cpf', async (req, res) => {
+    if (!req.body) return res.status(400).send();
+    const { cpf } = req.params;
+    const { nome, telefone, sexo, profissao } = req.body;
+
+    // Isso permite tornar os atributos opcionais (atualiza somente o que precisar)
+    const ret = await UsuarioController.updateUsuario(cpf, {
+        ...(nome !== undefined ? { nome } : {}),
+        ...(telefone !== undefined ? { telefone } : {}),
+        ...(sexo !== undefined ? { sexo } : {}),
+        ...(profissao !== undefined ? { profissao } : {}),
+    });
+
     if (ret === null) return res.json({ msg: 'erro' });
 
     return res.json({ msg: 'ok' });

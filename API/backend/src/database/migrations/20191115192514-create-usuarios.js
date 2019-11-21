@@ -13,6 +13,10 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
+    profissao:{
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
     // data_nascimento: {
     //   allowNull: false,
     //   type: Sequelize.DATE,
