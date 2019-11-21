@@ -23,7 +23,7 @@ class App extends React.Component {
 		this.handleAtividadeDescricao = this.handleAtividadeDescricao.bind(this)
 		this.handleAtividadeNome = this.handleAtividadeNome.bind(this)
   }
-  
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -51,7 +51,6 @@ class App extends React.Component {
 	}
 
 	handleSubmit = e => {
-    
     console.log(e);
     this.setState({
       visible: false,
@@ -184,7 +183,6 @@ class Lista extends React.Component {
   
   render() {
     let { atividades } = this.state
-    let { nome, descricao } = this.state;
     const { visible, loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
@@ -224,7 +222,7 @@ class Lista extends React.Component {
             onCancel={this.handleCancel}
             footer={[
               <Button key="back" onClick={this.handleCancel}>
-                Calcelar
+                Cancelar
               </Button>,
               <Button key="submit" type="primary" loading={loading} onClick={this.handleSubmit}>
                 Editar

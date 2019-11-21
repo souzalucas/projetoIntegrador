@@ -20,9 +20,8 @@ export default Professores;  */
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import { login } from "../../services/auth_def";
 import { Form, Container } from "./styles";
-// import img from "../../assets/fecam.png";
 import './login.css'
 import img from '../../new.png'
 
