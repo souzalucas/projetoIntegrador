@@ -21,15 +21,14 @@ class App extends React.Component {
 
     constructor(props) {
           super(props)
-          //data_nascimento,tipo
-          this.state = { cpf: '', nome: '', telefone: '', sexo: '', profissao : ''}
+          this.state = { cpf: '', nome: '', telefone: '',data_nascimento:'', sexo: '', cargo : ''}
           this.handleSubmit = this.handleSubmit.bind(this)
           this.handleUsuarioCpf = this.handleUsuarioCpf.bind(this)
           this.handleUsuarioNome = this.handleUsuarioNome.bind(this)
           this.handleUsuarioTelefone = this.handleUsuarioTelefone.bind(this)
-          // this.handleUsuarioDataNascimento = this.handleUsuarioDataNascimento.bind(this)
+          this.handleUsuarioDataNascimento = this.handleUsuarioDataNascimento.bind(this)
           this.handleUsuarioSexo = this.handleUsuarioSexo.bind(this)
-          this.handleUsuarioProfissao = this.handleUsuarioProfissao.bind(this)
+          this.handleUsuariocargo = this.handleUsuariocargo.bind(this)
           
       }
       showModal = () => {
@@ -64,11 +63,11 @@ class App extends React.Component {
         })
       }
 
-      // handleUsuarioDataNascimento(e) {
-      //   return this.setState({
-      //       data_nascimento: e.target.value
-      //   })
-      // }
+      handleUsuarioDataNascimento(e) {
+        return this.setState({
+            data_nascimento: e.target.value
+        })
+      }
 
       handleUsuarioSexo(e) {
         return this.setState({
@@ -76,10 +75,10 @@ class App extends React.Component {
         })
       }
       //verificar
-      handleUsuarioProfissao = e => {
+      handleUsuariocargo = e => {
         console.log('radio checked', e.target.value);
         return this.setState({
-            profissao: e.target.value
+            cargo: e.target.value
         })
     }
 
@@ -91,10 +90,9 @@ class App extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-            //data_nascimento,tipo
-                let { cpf, nome, telefone, sexo, profissao} = this.state
+                let { cpf, nome, telefone, data_nascimento, sexo, cargo} = this.state
                 //tipo
-                create(cpf, nome, telefone, sexo, profissao).then(() => {
+                create(cpf, nome, telefone, data_nascimento, sexo, cargo).then(() => {
                     return findAll().then(data => this.setState({ usuarios: data }),window.location.reload())
                 })
             }
@@ -124,7 +122,7 @@ class App extends React.Component {
                   </Button>,
                 ]}
             >
-        <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+        <Form labelCol={{ span: 7 }} wrapperCol={{ span: 10 }} onSubmit={this.handleSubmit}>
 
           <Form.Item label="Cpf">
             {getFieldDecorator('cpf', {
@@ -144,11 +142,11 @@ class App extends React.Component {
             })(<Input type="text" name="telefone" placeholder="Telefone do Usuario:" onChange={this.handleUsuarioTelefone}/>)}
           </Form.Item >
 
-          {/* <Form.Item label="Data nascimento">
+          <Form.Item label="Data nascimento">
             {getFieldDecorator('data_nascimento', {
               rules: [{ required: true, message: 'Por favor, insira uma data de nascimento!' }],
             })(<Input type="date" name="data_nascimento" placeholder="Data de nascimento do Usuario:" onChange={this.handleUsuarioDataNascimento} />)}
-          </Form.Item > */}
+          </Form.Item >
 
           <Form.Item label="Sexo">
             {getFieldDecorator('sexo', {
@@ -156,20 +154,19 @@ class App extends React.Component {
             })(<Input type="text" name="sexo" placeholder="Sexo do Usuario:" onChange={this.handleUsuarioSexo}/>)}
           </Form.Item >
 
-        <Form.Item label="Profissão">
-        {getFieldDecorator('profissao',{
-          rules: [{ required: true, message: 'Por favor, escolha a profissão!' }],
-        })(<Radio.Group onChange={this.handleUsuarioProfissao} value={this.state.profissao}>
+        <Form.Item label="Cargo">
+        {getFieldDecorator('cargo',{
+          rules: [{ required: true, message: 'Por favor, escolha a cargo!' }],
+        })(<Radio.Group onChange={this.handleUsuariocargo} value={this.state.cargo}>
           <Radio style={radioStyle} value={"secretaria"}>
             Secretaria
           </Radio>
           <Radio style={radioStyle} value={"professor"}>
             Professor
           </Radio>
-          {/* verificar */}
           {/* <Radio style={radioStyle} value={"outro"}> 
             Outro
-            {this.state.profissao === "outro" ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+            {this.state.cargo === "outro" ? <Input style={{ width: 100, marginLeft: 20 }} /> : null}
           </Radio> */}
         </Radio.Group>)
         }
@@ -187,14 +184,15 @@ class App extends React.Component {
     constructor(props) {
           super(props)
           //alteração realizada
-          this.state = { usuarios: [], cpf:'',nome:'',telefone:'', sexo:'', profissao:'',visible: false,loading:false}
+          this.state = { usuarios: [], cpf:'',nome:'',telefone:'',data_nascimento:'', sexo:'', cargo:'',visible: false,loading:false}
 
           this.handleSubmit = this.handleSubmit.bind(this)
           this.handleUsuarioNome = this.handleUsuarioNome.bind(this)
           this.handleUsuarioTelefone = this.handleUsuarioTelefone.bind(this)
-          // this.handleUsuarioDataNascimento = this.handleUsuarioDataNascimento.bind(this)
+          this.handleUsuarioDataNascimento = this.handleUsuarioDataNascimento.bind(this)
           this.handleUsuarioSexo = this.handleUsuarioSexo.bind(this)
-          this.handleUsuarioProfissao= this.handleUsuarioProfissao.bind(this)
+          this.handleUsuariocargo= this.handleUsuariocargo.bind(this)
+
     }
 
   handleUsuarioNome(e) {
@@ -209,11 +207,11 @@ class App extends React.Component {
     })
   }
 
-  // handleUsuarioDataNascimento(e) {
-  //   return this.setState({
-  //       data_nascimento: e.target.value
-  //   })
-  // }
+  handleUsuarioDataNascimento(e) {
+    return this.setState({
+        data_nascimento: e.target.value
+    })
+  }
 
   handleUsuarioSexo(e) {
     return this.setState({
@@ -221,10 +219,10 @@ class App extends React.Component {
     })
   }
 
-  handleUsuarioProfissao = e => {
+  handleUsuariocargo = e => {
     console.log('radio checked', e.target.value);
     return this.setState({
-        profissao: e.target.value
+        cargo: e.target.value
     })
   }
   
@@ -233,10 +231,10 @@ class App extends React.Component {
         visible: true,
         cpf: usuario.cpf,
         nome: usuario.nome,
-        // dataNascumentoEdit: usuario.data_nascimento,
+        data_nascimento: usuario.data_nascimento,
         telefone: usuario.telefone,
         sexo: usuario.sexo,
-        profissao: usuario.profissao,
+        cargo: usuario.cargo,
       });
     };
     
@@ -256,9 +254,9 @@ class App extends React.Component {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          const { nome, telefone, sexo, profissao } = values;
+          const { nome, telefone,data_nascimento,sexo, cargo } = values;
           const { cpf } = this.state;
-          update(cpf,nome,telefone,sexo,profissao).then(() => {
+          update(cpf,nome,telefone,data_nascimento,sexo,cargo).then(() => {
             this.props.form.resetFields();
             //usuarios
             return findAll().then(data => this.setState({ usuarios: data }))
@@ -276,7 +274,6 @@ class App extends React.Component {
     render() {
       let { usuarios } = this.state;
       const { visible, loading } = this.state;
-      //dataNascumentoEdit, tipoEdit 
       const { getFieldDecorator } = this.props.form;
       return (
         <MainLayout>
@@ -316,7 +313,7 @@ class App extends React.Component {
                 </Button>,
               ]}
             >
-            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+            <Form labelCol={{ span: 7 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
               {/* <Form.Item label="Cpf">
                 {getFieldDecorator('cpf', {
                 rules: [{ required: true, message: 'Por favor, insira um cpf!' }],
@@ -335,11 +332,11 @@ class App extends React.Component {
                   })(<Input type="text" name="telefone" placeholder="Telefone do Usuario:" value={this.handleUsuarioTelefone}/>)}
               </Form.Item >
 
-              {/* <Form.Item label="Data_nascimento">
+              <Form.Item label="Data_nascimento">
                   {getFieldDecorator('data_nascimento', {
                   rules: [{ required: true, message: 'Por favor, insira uma data de nascimento!' }],
-                  })(<Input type="date" name="data_nascimento" placeholder="Data de nascimento do Usuario:" value={dataNascumentoEdit}/>)}
-              </Form.Item > */}
+                  })(<Input type="date" name="data_nascimento" placeholder="Data de nascimento do Usuario:" value={this.handleUsuarioDataNascimento}/>)}
+              </Form.Item >
 
               <Form.Item label="Sexo">
                   {getFieldDecorator('sexo', {
@@ -347,10 +344,10 @@ class App extends React.Component {
                  })(<Input type="text" name="sexo" placeholder="Sexo do Usuario:" value={this.handleUsuarioSexo}/>)}
               </Form.Item > 
 
-              <Form.Item label="Profissão">
-                {getFieldDecorator('profissao',{
-                  rules: [{ required: true, message: 'Por favor, escolha a profissão!' }],
-                })(<Radio.Group onChange={this.handleUsuarioProfissao} value={this.state.profissao}>
+              <Form.Item label="Cargo">
+                {getFieldDecorator('cargo',{
+                  rules: [{ required: true, message: 'Por favor, escolha a cargo!' }],
+                })(<Radio.Group onChange={this.handleUsuariocargo} value={this.state.cargo}>
                   <Radio style={radioStyle} value={"secretaria"}>
                     Secretaria
                   </Radio>
@@ -360,7 +357,7 @@ class App extends React.Component {
                   {/* verificar */}
                   {/* <Radio style={radioStyle} value={"outro"}> 
                     Outro
-                    {this.state.profissao === "outro" ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+                    {this.state.cargo === "outro" ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
                   </Radio> */}
               </Radio.Group>)
               }
