@@ -2,6 +2,7 @@ const { Router } = require('express');
 const AreaController = require('./app/controllers/AreaController');
 const AtividadeController = require('./app/controllers/AtividadeController');
 const UsuarioController = require('./app/controllers/UsuarioController');
+const AlunoController = require('./app/controllers/AlunoController');
 
 const routes = Router();
 
@@ -119,19 +120,17 @@ routes.get('/usuario', async (req, res) => {
             cpf: usuario.cpf,
             nome: usuario.nome,
             telefone: usuario.telefone,
-            // data_nascimento: usuario.data_nascimento,
+            data_nascimento: usuario.data_nascimento,
             sexo: usuario.sexo,
-            profissao: usuario.profissao,
+            cargo: usuario.cargo,
         })),
     )
 });
 
 routes.post('/usuario', async (req, res) => {
     if (!req.body) return res.status(400).send();
-    //data_nascimento,tipo
-    const { cpf, nome, telefone, sexo, profissao } = req.body;
-    //data_nascimento,tipo
-    const ret = await UsuarioController.addUsuario(cpf, nome, telefone, sexo, profissao);
+    const { cpf, nome, telefone, data_nascimento, sexo, cargo } = req.body;
+    const ret = await UsuarioController.addUsuario(cpf, nome, telefone, data_nascimento, sexo, cargo);
 
     if (ret === null) return res.json({ msg: 'erro' });
 
@@ -151,14 +150,67 @@ routes.delete('/usuario/:cpf', async (req, res) => {
 routes.put('/usuario/:cpf', async (req, res) => {
     if (!req.body) return res.status(400).send();
     const { cpf } = req.params;
-    const { nome, telefone, sexo, profissao } = req.body;
+    const { nome, telefone, data_nascimento, sexo, cargo } = req.body;
 
     // Isso permite tornar os atributos opcionais (atualiza somente o que precisar)
     const ret = await UsuarioController.updateUsuario(cpf, {
         ...(nome !== undefined ? { nome } : {}),
         ...(telefone !== undefined ? { telefone } : {}),
+        ...(data_nascimento !== undefined ? { data_nascimento } : {}),
         ...(sexo !== undefined ? { sexo } : {}),
-        ...(profissao !== undefined ? { profissao } : {}),
+        ...(cargo !== undefined ? { cargo } : {}),
+    });
+
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
+
+routes.get('/aluno', async (req, res) => {
+    const aluno = await AlunoController.listAluno();
+
+    return res.json(
+        aluno.map(aluno => ({
+            cpf: aluno.cpf,
+            nome: aluno.nome,
+            telefone: aluno.telefone,
+            data_nascimento: aluno.data_nascimento,
+            sexo: aluno.sexo,
+        })),
+    )
+});
+
+routes.post('/aluno', async (req, res) => {
+    if (!req.body) return res.status(400).send();
+    const { cpf, nome, telefone, data_nascimento, sexo } = req.body;
+    const ret = await AlunoController.addAluno(cpf, nome, telefone, data_nascimento, sexo);
+
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
+
+//conferir req.params, ainda acho que seria pelo req.body
+routes.delete('/aluno/:cpf', async (req, res) => {
+    const { cpf } = req.params;
+
+    const ret = await AlunoController.deleteAluno(cpf);
+    if (ret === null) return res.json({ msg: 'erro' });
+
+    return res.json({ msg: 'ok' });
+});
+
+routes.put('/aluno/:cpf', async (req, res) => {
+    if (!req.body) return res.status(400).send();
+    const { cpf } = req.params;
+    const { nome, telefone, data_nascimento, sexo } = req.body;
+
+    // Isso permite tornar os atributos opcionais (atualiza somente o que precisar)
+    const ret = await AlunoController.updateAluno(cpf, {
+        ...(nome !== undefined ? { nome } : {}),
+        ...(telefone !== undefined ? { telefone } : {}),
+        ...(data_nascimento !== undefined ? { data_nascimento } : {}),
+        ...(sexo !== undefined ? { sexo } : {}),
     });
 
     if (ret === null) return res.json({ msg: 'erro' });

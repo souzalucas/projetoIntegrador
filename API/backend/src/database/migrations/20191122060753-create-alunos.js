@@ -1,5 +1,6 @@
+'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('usuarios', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('alunos', {
     cpf: {
       allowNull: false,
       primaryKey: true,
@@ -10,10 +11,6 @@ module.exports = {
       type: Sequelize.STRING,
     },
     telefone: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
-    cargo:{
       allowNull: false,
       type: Sequelize.STRING,
     },
@@ -34,5 +31,6 @@ module.exports = {
       type: Sequelize.DATE,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('usuarios'),
+  down: queryInterface => queryInterface.dropTable('alunos'),
 };
+

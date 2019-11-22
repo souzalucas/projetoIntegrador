@@ -1,21 +1,20 @@
 const models = require('../models/index');
 const bcrypt = require('bcrypt');
 
-//data_nascimento,tipo
-const addUsuario = async (cpf, nome, telefone, data_nascimento, sexo, cargo) => {
+const addAluno = async (cpf, nome, telefone, data_nascimento, sexo) => {
   let transaction;
 
   try {
     transaction = await models.sequelize.transaction();
-    models.Usuario.removeAttribute("id");
+    models.Aluno.removeAttribute("id");
 
     split = data_nascimento.split('/');
     novadata = split[2] + "/" +split[1]+"/"+split[0];
     console.log(novadata)
     data_americana = new Date(novadata); 
 
-    const ret = await models.Usuario.create({
-      cpf: cpf, nome: nome, telefone: telefone,data_nascimento: data_americana, sexo: sexo, cargo : cargo
+    const ret = await models.Aluno.create({
+      cpf: cpf, nome: nome, telefone: telefone,data_nascimento: data_americana, sexo: sexo
     });
 
     await transaction.commit();
@@ -28,8 +27,8 @@ const addUsuario = async (cpf, nome, telefone, data_nascimento, sexo, cargo) => 
 }
 
 //Formatação da data listagem(fazer)
-const listUsuario = async () => {
-  const usuario = await models.Usuario.findAll({ attributes: ['cpf', 'nome', 'telefone','data_nascimento','sexo','cargo',] });
+const listAluno = async () => {
+  const aluno = await models.Aluno.findAll({ attributes: ['cpf', 'nome', 'telefone','data_nascimento','sexo',] });
 
     // split = data_nascimento.split('/');
     // novadata = split[1] + "/" +split[2]+"/"+split[0];
@@ -37,38 +36,37 @@ const listUsuario = async () => {
     // data_americana = new Date(novadata); 
   
 
-  return usuario.map(el => ({
+  return aluno.map(el => ({
     cpf: el.cpf,
     nome: el.nome,
     telefone: el.telefone,
     data_nascimento: el.data_nascimento,
     sexo: el.sexo,
-    cargo: el.cargo,
   }));
 }
 
-const deleteUsuario = async (cpf) => {
-  models.Usuario.removeAttribute("id");
-  const usuario = await models.Usuario.findOne({
+const deleteAluno = async (cpf) => {
+  models.Aluno.removeAttribute("id");
+  const aluno = await models.Aluno.findOne({
     where: { cpf },
   });
 
-  if (usuario == null) return null;
+  if (aluno == null) return null;
 
-  const ret = await usuario.destroy();
+  const ret = await aluno.destroy();
   return ret;
 };
 
-const updateUsuario = async (cpf, dados) => {
-  models.Usuario.removeAttribute("id");
+const updateAluno = async (cpf, dados) => {
+  models.Aluno.removeAttribute("id");
 
-  const usuario = await models.Usuario.findOne({
+  const aluno = await models.Aluno.findOne({
     where: { cpf },
   });
 
-  if (!usuario) return null;
+  if (!aluno) return null;
 
-  const { nome, telefone, data_nascimento, sexo, cargo } = dados;
+  const { nome, telefone, data_nascimento, sexo } = dados;
 
     split = data_nascimento.split('/');
     novadata = split[2] + "/" +split[1]+"/"+split[0];
@@ -76,7 +74,7 @@ const updateUsuario = async (cpf, dados) => {
 
   try {
     console.log(dados);
-    const ret = await usuario.update({ nome, telefone, data_nascimento : data_americana, sexo, cargo });
+    const ret = await aluno.update({ nome, telefone, data_nascimento : data_americana, sexo });
 
     return ret;
   } catch (error) {
@@ -86,8 +84,8 @@ const updateUsuario = async (cpf, dados) => {
 };
 
 module.exports = {
-  addUsuario,
-  listUsuario,
-  deleteUsuario,
-  updateUsuario,
+  addAluno,
+  listAluno,
+  deleteAluno,
+  updateAluno,
 }
