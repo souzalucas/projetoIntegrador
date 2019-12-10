@@ -22,14 +22,14 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    turmaId:{
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {         
-        model: 'turmas',
-        key: 'id'
-      }
-    },
+    // turmaId:{
+    //   type: Sequelize.INTEGER,
+    //   allowNull: false,
+    //   references: {         
+    //     model: 'turmas',
+    //     key: 'id'
+    //   }
+    // },
     created_at: {
       allowNull: false,
       type: Sequelize.DATE,
