@@ -3,7 +3,7 @@ module.exports = {
     cpf: {
       allowNull: false,
       primaryKey: true,
-      type: Sequelize.STRING(11),
+      type: Sequelize.STRING(14),
     },
     nome: {
       allowNull: false,

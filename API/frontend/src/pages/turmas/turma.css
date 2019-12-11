@@ -1,0 +1,11 @@
+.login{
+    background-image: url("../../login.jpg");
+    background-position: center;
+    background-size: 100%;
+}
+ 
+.modal-auto{
+    max-width: 100%;
+    width: auto !important;
+    display: table;
+}

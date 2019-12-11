@@ -4,7 +4,7 @@ module.exports = {
     host: '127.0.0.1',
     port: 3306,
     username: 'root',
-    password: 'alan241198',
+    password: 'root',
     database: 'estadio',
     operatorAliases: false,
     define: {

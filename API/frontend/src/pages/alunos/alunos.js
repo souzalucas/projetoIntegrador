@@ -266,7 +266,7 @@ class App extends React.Component {
                       <List.Item.Meta
                           avatar={<Avatar src="https://cdn2.iconfinder.com/data/icons/cycle/154/map-pointer-geo-location-velo-cycle-sport-drive-512.png" />}
                           title={item.nome}
-                          description={item.descricao}
+                          description={item.cpf}
                       />
                     </List.Item>
                 )}
