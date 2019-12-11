@@ -1,0 +1,30 @@
+CREATE DATABASE IF NOT EXISTS estadio;
+
+USE estadio;
+
+CREATE TABLE IF NOT EXISTS estadio.areas (
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS estadio.atividades (
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
+
+-- CREATE TABLE IF NOT EXISTS estadio.alunos (
+-- 	cpf VARCHAR(11) NOT NULL PRIMARY KEY
+-- 	nome VARCHAR(255) NOT NULL,
+-- 	telefone VARCHAR(255) NOT NULL,
+-- 	data_nascimento DATETIME NOT NULL,
+-- 	sexo VARCHAR(255) NOT NULL,
+-- 	turmaId INT NOT NULL,
+-- 	created_at DATETIME NOT NULL,
+--     updated_at DATETIME NOT NULL
+-- );

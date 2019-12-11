@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+  mysql-db:
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: estadio
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  node-app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-db
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    volumes:
+      - ./backend:/opt/app:delegated
+      - ./backend/package.json:/opt/package.json
+      - ./backend/package-lock.json:/opt/package-lock.json
+      - notused:/opt/app/node_modules
+    networks:
+      - app-network
+  
+  web-client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    volumes:
+      - ./frontend:/opt/app:delegated
+      - ./frontend/package.json:/opt/package.json
+      - ./frontend/package-lock.json:/opt/package-lock.json
+      - notused:/opt/app/node_modules
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+  notused:
+
+networks:
+  app-network:
+    driver: bridge
