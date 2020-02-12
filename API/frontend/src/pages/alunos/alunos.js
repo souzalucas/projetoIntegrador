@@ -4,6 +4,9 @@ import MainLayout from '../../layouts';
 import { findAll, remove, create, update} from './alunosAPI';
 import "./alunos.css";
 
+
+
+
 function cancel(e) {
   console.log(e);
   message.error('Remoção cancelada');
@@ -43,12 +46,13 @@ class App extends React.Component {
         this.props.form.resetFields();
       };
   
-      handleAlunoCpf(e) {
+      handleAlunoCpf(e) {  
+        // console.log(e.target.value)
           return this.setState({
               cpf: e.target.value
           })
-      }
-  
+      }  
+
       handleAlunoNome(e) {
           return this.setState({
               nome: e.target.value
@@ -78,6 +82,8 @@ class App extends React.Component {
           visible: false,
         });
         e.preventDefault();
+        // teste = validarCpf(e.target.value); // false
+        //         console.log(teste)
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 let { cpf, nome, telefone, data_nascimento, sexo} = this.state
@@ -141,8 +147,15 @@ class App extends React.Component {
           <Form.Item label="Sexo">
             {getFieldDecorator('sexo', {
               rules: [{ required: true, message: 'Por favor, insira um sexo!' }],
-            })(<Input type="text" name="sexo" placeholder="Sexo do Aluno:" onChange={this.handleAlunoSexo}/>)}
-          </Form.Item >
+            })(<Radio.Group onChange={this.handleUsuarioSexo} value={this.state.sexo}>
+              <Radio style={radioStyle} value={"Masculino"}>
+                Masculino
+              </Radio>
+              <Radio style={radioStyle} value={"Feminino"}>
+                Feminino
+              </Radio>
+            </Radio.Group>)
+            }</Form.Item >
         </Form>
         </Modal>
         </div>

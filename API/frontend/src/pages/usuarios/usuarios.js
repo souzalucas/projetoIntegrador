@@ -149,9 +149,17 @@ class App extends React.Component {
           </Form.Item >
 
           <Form.Item label="Sexo">
-            {getFieldDecorator('sexo', {
-              rules: [{ required: true, message: 'Por favor, insira um sexo!' }],
-            })(<Input type="text" name="sexo" placeholder="Sexo do Usuario:" onChange={this.handleUsuarioSexo}/>)}
+          {getFieldDecorator('sexo',{
+          rules: [{ required: true, message: 'Por favor, escolha o sexo!' }],
+        })(<Radio.Group onChange={this.handleUsuarioSexo} value={this.state.sexo}>
+          <Radio style={radioStyle} value={"Masculino"}>
+            Masculino
+          </Radio>
+          <Radio style={radioStyle} value={"Feminino"}>
+            Feminino
+          </Radio>
+        </Radio.Group>)
+        }
           </Form.Item >
 
         <Form.Item label="Cargo">

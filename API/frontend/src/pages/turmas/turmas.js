@@ -143,31 +143,31 @@ class App extends React.Component {
             })(<Input type="date" name="dia" placeholder="Dia da Turma" allowClear onChange={this.handleAtividadeNome} />)}
           </Form.Item>
 
-          <Form.Item label="Horário Início">
+          <Form.Item label="Início">
             {getFieldDecorator('horario_inicio', {
               rules: [{ required: true, message: 'Por favor, insira um horáro de início!' }],
-            })(<Input  type="time" name="horario_inicio" placeholder="Horário de Início " onChange={this.handleAtividadeDescricao} />)}
+            })(<Input  type="time" name="horario_inicio" placeholder="Início " onChange={this.handleAtividadeDescricao} />)}
           </Form.Item >
 
-          <Form.Item label="Horário de Término">
+          <Form.Item label="Término">
             {getFieldDecorator('horario_fim', {
               rules: [{ required: true, message: 'Por favor, insira um horáro de término!' }],
-            })(<Input  type="time" name="horario_fim" placeholder="Horário de Término " onChange={this.handleAtividadeDescricao} />)}
+            })(<Input  type="time" name="horario_fim" placeholder="Término " onChange={this.handleAtividadeDescricao} />)}
           </Form.Item >
 
-          <Form.Item label="Horário de Término">
+          <Form.Item label="Dias:">
                 <div>
                     <Radio.Group options={plainOptions} onChange={this.onChange1} value={this.state.value1}/>
                 </div>
           </Form.Item >
           
-            <Form.Item label="Seleção Alunos">
+            <Form.Item label="Alunos">
               <div>
                   <Select
                     mode="tags"
                     size={'default'}
                     placeholder="Please select"
-                    defaultValue={['a10', 'c12']}
+                    defaultValue={['Jorge', 'João']}
                     // onChange={handleChange}
                     style={{ width: '100%' }}
                   >
