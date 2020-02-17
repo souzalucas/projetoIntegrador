@@ -114,9 +114,7 @@ const WrappedApp = Form.create({ name: 'coordinated' })(App);
 class Lista extends React.Component {
   constructor(props) {
 		super(props)
-
     this.state = { atividades: [], id: '', nome: '', descricao: ''}
-    
     this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleAtividadeDescricao = this.handleAtividadeDescricao.bind(this)
 		this.handleAtividadeNome = this.handleAtividadeNome.bind(this)
@@ -144,7 +142,7 @@ class Lista extends React.Component {
         let { id, nome, descricao } = this.state
         update(id, nome, descricao).then(() => {
           this.props.form.resetFields();
-          return findAll().then(data => this.setState({ atividades: data }))
+          return findAll().then(data => this.setState({ atividades: data }),window.location.reload())
         })
       }
     });
@@ -174,7 +172,6 @@ class Lista extends React.Component {
   }
 
   handleDelete(atividade){
-    console.log(atividade);
     message.success('Atividade removida');
 		remove(atividade.id).then( () => {
 			return findAll().then(data => this.setState({ atividades: data }))
@@ -188,7 +185,6 @@ class Lista extends React.Component {
     return (
       <MainLayout>
           <WrappedApp />
-
           <List
               itemLayout="horizontal"
               dataSource={atividades}
@@ -231,14 +227,10 @@ class Lista extends React.Component {
           >
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
               <Form.Item label="Nome">
-                {getFieldDecorator('nome', {
-                  rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-                })(<Input type="text" name="nome" defaultValue="teste" placeholder="Nome da Atividade: " onChange={this.handleAtividadeNome} />)}
+                <Input type="text" name="nome" value={this.state.nome} placeholder="Nome da Atividade: " onChange={this.handleAtividadeNome} />
               </Form.Item>
               <Form.Item label="Descrição">
-                {getFieldDecorator('descrição', {
-                  rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-                })(<TextArea rows={4} type="text" name="descricao" defaultValue="teste" placeholder="Descricao da Atividade: " onChange={this.handleAtividadeDescricao} />)}
+               <TextArea rows={4} type="text" name="descricao" value={this.state.descricao} placeholder="Descricao da Atividade: " onChange={this.handleAtividadeDescricao} />
               </Form.Item >
             </Form>
           </Modal>

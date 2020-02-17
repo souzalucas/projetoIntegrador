@@ -72,13 +72,13 @@ class App extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-      <h2 className="titulo_area">Areas de Atividade
+      <h2 className="titulo_area">Areas
         <Button className="botao_area" type="primary" onClick={this.showModal}>
-            Cadastrar area de atividade
+            Cadastrar Area
           </Button>
         </h2>
         <Modal
-          title="Cadastar Area de Atividade"
+          title="Cadastar Area"
           visible={this.state.visible}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
@@ -95,12 +95,12 @@ class App extends React.Component {
             <Form.Item label="Nome">
               {getFieldDecorator('nome', {
                 rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-              })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade " allowClear onChange={this.handleAreaNome} />)}
+              })(<Input type="text" name="nome" placeholder="Nome da Area " allowClear onChange={this.handleAreaNome} />)}
             </Form.Item>
             <Form.Item label="Descrição">
               {getFieldDecorator('descrição', {
                 rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-              })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade " allowClear onChange={this.handleAreaDescricao} />)}
+              })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area " allowClear onChange={this.handleAreaDescricao} />)}
             </Form.Item >
           </Form>
         </Modal>
@@ -159,6 +159,8 @@ class Lista extends React.Component {
     this.setState({
       visible: true,
       id: area.id,
+      nome: area.nome,
+      descricao : area.descricao,
     });
   };
 
@@ -215,7 +217,7 @@ class Lista extends React.Component {
           />
           <Modal
             visible={visible}
-            title="Editar Area de Atividade"
+            title="Editar Area"
             onOk={this.handleSubmit}
             onCancel={this.handleCancel}
             footer={[
@@ -229,14 +231,10 @@ class Lista extends React.Component {
           >
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
               <Form.Item label="Nome">
-                {getFieldDecorator('nome', {
-                  rules: [{ required: true, message: 'Por favor, insira um nome!' }],
-                })(<Input type="text" name="nome" placeholder="Nome da Area de Atividade: " onChange={this.handleAreaNome} />)}
+                <Input value={this.state.nome} type="text" name="nome" placeholder="Nome da Area: " onChange={this.handleAreaNome} />
               </Form.Item>
               <Form.Item label="Descrição">
-                {getFieldDecorator('descrição', {
-                  rules: [{ required: true, message: 'Por favor, insira uma descrição!' }],
-                })(<TextArea rows={4} type="text" name="descricao" placeholder="Descricao da Area de Atividade: " onChange={this.handleAreaDescricao} />)}
+                <TextArea value={this.state.descricao} rows={4} type="text" name="descricao" placeholder="Descricao da Area: " onChange={this.handleAreaDescricao} />
               </Form.Item >
             </Form>
           </Modal>
