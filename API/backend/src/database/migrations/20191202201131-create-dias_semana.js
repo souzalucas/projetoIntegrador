@@ -1,26 +1,23 @@
 'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('alunos', {
-    cpf: {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('dias_semana', {
+    id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.STRING(11),
+      type: Sequelize.INTEGER,
     },
-    nome: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
-    telefone: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
-    data_nascimento:{
+    dia: {
       allowNull: false,
       type: Sequelize.DATE,
     },
-    sexo: {
+    horario_inicio: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.TIME,
+    },
+    horario_fim:{
+      allowNull: false,
+      type: Sequelize.TIME,
     },
     turmaId:{
       type: Sequelize.INTEGER,
@@ -39,6 +36,6 @@ module.exports = {
       type: Sequelize.DATE,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('alunos'),
+  down: queryInterface => queryInterface.dropTable('dias_semana'),
 };
 

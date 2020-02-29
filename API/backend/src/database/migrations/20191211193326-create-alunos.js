@@ -1,5 +1,6 @@
+'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('usuarios', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('alunos', {
     cpf: {
       allowNull: false,
       primaryKey: true,
@@ -13,10 +14,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    cargo:{
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
     data_nascimento:{
       allowNull: false,
       type: Sequelize.DATE,
@@ -25,6 +22,14 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
+    // turmaId:{
+    //   type: Sequelize.INTEGER,
+    //   allowNull: false,
+    //   references: {         
+    //     model: 'turmas',
+    //     key: 'id'
+    //   }
+    // },
     created_at: {
       allowNull: false,
       type: Sequelize.DATE,
@@ -34,5 +39,6 @@ module.exports = {
       type: Sequelize.DATE,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('usuarios'),
+  down: queryInterface => queryInterface.dropTable('alunos'),
 };
+
