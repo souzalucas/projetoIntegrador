@@ -1,0 +1,36 @@
+.login{
+  background-image: url("../../login.jpg");
+  background-position: center;
+  background-size: 100%;
+}
+
+.login img{
+  width: 30%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+body{
+  background-image: url("../../2OXhkn.jpg");
+  background-position: center;
+  background-size: 100%;
+}
+/*
+body{
+  background: #FFFFFF url("../../login.jpg") no-repeat right top fixed; 
+}
+
+.login img{
+  width: 30%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+ .login{
+  background-image: url("../../login.jpg");
+  background-position: center;
+  background-size: 100%;
+  
+} */
